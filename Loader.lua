@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://belusehub.nicuse.repl.co/script"))
+loadstring(game:HttpGet("https://belusehub.nicuse.repl.co/script"))()
