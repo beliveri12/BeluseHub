@@ -1,3 +1,1 @@
-# Beluse Hub
-- [Discord Invite](https://discord.gg/wWvyZM2xbj)
-- Script: ```loadstring(game:HttpGet('https://raw.githubusercontent.com/beliveri12/BeluseHub/main/Loader.lua', true))()```
+alright lets get this shit straight, its not open source (HI SKID) if you are looking for the [discord](https://discord.gg/wWvyZM2xbj) [click here](https://discord.gg/wWvyZM2xbj)
