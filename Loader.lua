@@ -1,3 +1,5 @@
+-- No source here, go skid another script
+
 _, Protected_by_MoonSecV2, Discord = 'discord.gg/gQEH2uZxUk'
 
 
