@@ -1,0 +1,141 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+function GetPlayersName()
+    local v = game:GetService("Players"):GetPlayers()
+    local PlayersInGame = {};
+
+    for i, v in pairs(v) do
+        table.insert(PlayersInGame, v.Name)
+    end
+    return PlayersInGame
+end
+
+function GotoPlayer(playerName)
+    local v = game:GetService("Players");
+    if v:FindFirstChild(playerName) then
+        game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(120, Enum.EasingStyle.Linear), {CFrame = CFrame.new(v[playerName].Character.HumanoidRootPart.Position)}):Play()
+        task.wait(0.1)
+    else
+        return warn("Player not found.")
+    end
+end
+
+function TeleportToEnd(obbyName)
+    if obbyName:lower("normal") then
+        local chp = Workspace.Checkpoints
+
+        for i = 1, 9999 do
+            if chp:FindFirstChild(i) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(chp:FindFirstChild(i).Part.Position) + Vector3.new(0, 5, 0)
+            end
+        end
+    elseif obbyName:lower("pro") then
+        local chp = Workspace.CheckpointsPro
+
+        for i = 1, 9999 do
+            if chp:FindFirstChild(i) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(chp:FindFirstChild(i).Part.Position) + Vector3.new(0, 5, 0)
+            end
+        end
+    elseif obbyName:lower("monthly") then
+        local chp = Workspace.CheckpointsMonthly
+
+        for i = 1, 9999 do
+            if chp:FindFirstChild(i) then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(chp:FindFirstChild(i).Part.Position) + Vector3.new(0, 5, 0)
+            end
+        end
+    end
+end
+
+function SkipToStage(num)
+    local checkpoint = Workspace.Checkpoints:FindFirstChild(num)
+
+    if checkpoint then
+        local checkcframe = CFrame.new(checkpoint:FindFirstChildOfClass("Part").Position) + Vector3.new(0, 5, 0)
+
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = checkcframe
+    end
+end
+
+_G.CompleteObby = false;
+
+spawn(function()
+    while wait(0.5) do
+        if _G.CompleteObby == true then
+            local currentStage = Players.LocalPlayer.leaderstats.Stage.Value
+            local nextStage = Workspace.Checkpoints:FindFirstChild(tostring(currentStage + 1))
+    
+            if nextStage then
+                local hrp = Players.LocalPlayer.Character.HumanoidRootPart
+    
+                hrp.CFrame = CFrame.new(nextStage.Part.Position) + Vector3.new(0, 2, 0)
+            end
+        end
+    end
+end)
+
+_G.infjump = false;
+
+Players.LocalPlayer:GetMouse().KeyDown:Connect(function(key)
+    if key == " " and _G.infjump == true then
+        Players.LocalPlayer.Character.Humanoid:ChangeState(3)
+    end
+end)
+--ui
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Beluse Hub | "..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.." | discord.gg/"..discordinvitecode, "DarkTheme")
+
+local MainTab = Window:NewTab("Main"):NewSection("Main")
+local TeleportsTab = Window:NewTab("Teleports"):NewSection("Teleports")
+local LocalPlayerTab = Window:NewTab("LocalPlayer"):NewSection("LocalPlayer")
+local CreditsTab = Window:NewTab("Credits"):NewSection("Credits")
+
+MainTab:NewToggle("Complete Obby", "Complete Obby", function(state) _G.CompleteObby = state; end)
+
+TeleportsTab:NewDropdown("Teleport To End Of Obby", "Teleport To End Of Obby", {"Normal", "Pro", "Monthly"}, function(a)
+    TeleportToEnd(a)
+end)
+
+local gotoPlayerThingyDropdown = TeleportsTab:NewDropdown("Goto Player", "Goto Player", GetPlayersName(), function(a)
+    GotoPlayer(a)
+end)
+
+TeleportsTab:NewButton("Refresh", "Refresh", function()
+    gotoPlayerThingyDropdown:Refresh(GetPlayersName())
+end)
+
+LocalPlayerTab:NewSlider("Walkspeed", "Walkspeed", 500, 16, function(v)
+    Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+end)
+
+LocalPlayerTab:NewSlider("Jumppower", "Jumppower", 500, 50, function(v)
+    Players.LocalPlayer.Character.Humanoid.JumpPower = v
+end)
+
+LocalPlayerTab:NewToggle("Infinite Jump", "Infinite Jump", function(state) _G.infjump = state; end)
+
+LocalPlayerTab:NewButton("TP Tool", "TP Tool", function()
+    local TpTool = Instance.new("Tool")
+    local speaker = Players.LocalPlayer
+    local IYMouse = Players.LocalPlayer:GetMouse()
+    TpTool.Name = "Beluse Hub | TP Tool"
+    TpTool.RequiresHandle = false
+    TpTool.Parent = speaker.Backpack
+    TpTool.Activated:Connect(function()
+        local Char = speaker.Character or workspace:FindFirstChild(speaker.Name)
+        local HRP = Char and Char:FindFirstChild("HumanoidRootPart")
+        if not Char or not HRP then
+            return
+        end
+        HRP.CFrame = CFrame.new(IYMouse.Hit.X, IYMouse.Hit.Y + 3, IYMouse.Hit.Z, select(4, HRP.CFrame:components()))
+    end)
+end)
+
+
+CreditsTab:NewButton("Nicuse#6163", "Nicuse#6163", function()
+    if setclipboard then
+        setclipboard("Nicuse#6163")
+    end
+end)
